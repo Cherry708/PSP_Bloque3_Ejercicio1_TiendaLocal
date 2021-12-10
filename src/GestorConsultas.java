@@ -1,10 +1,5 @@
-import java.io.EOFException;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.io.*;
 import java.util.HashSet;
-
 
 public class GestorConsultas {
 
@@ -37,15 +32,15 @@ public class GestorConsultas {
     }
 
     private void creaDiscosPorDefecto() {
-        Disco disco1 = new Disco(1, "Que voy a hacer", "Los Planetas", 20.0, 5);
+        Solucion.Disco disco1 = new Solucion.Disco(1, "Que voy a hacer", "Los Planetas", 20.0, 5);
         disco1.escribeEnFichero(stream);
-        Disco disco2 = new Disco(2, "La voz del presidente", "Viva Suecia", 35.0, 1);
+        Solucion.Disco disco2 = new Solucion.Disco(2, "La voz del presidente", "Viva Suecia", 35.0, 1);
         disco2.escribeEnFichero(stream);
-        Disco disco3 = new Disco(3, "La revolución sexual", "La casa azul", 20.0, 10);
+        Solucion.Disco disco3 = new Solucion.Disco(3, "La revolución sexual", "La casa azul", 20.0, 10);
         disco3.escribeEnFichero(stream);
-        Disco disco4 = new Disco(4, "Finisterre", "Vetusta Morla", 40.0, 5);
+        Solucion.Disco disco4 = new Solucion.Disco(4, "Finisterre", "Vetusta Morla", 40.0, 5);
         disco4.escribeEnFichero(stream);
-        Disco disco5 = new Disco(5, "Paradise","Coldplay", 35.0, 2);
+        Solucion.Disco disco5 = new Solucion.Disco(5, "Paradise","Coldplay", 35.0, 2);
         disco5.escribeEnFichero(stream);
     }
 
@@ -67,7 +62,7 @@ public class GestorConsultas {
      * @return					byte de inicio del registro en el fichero
      */
     private long buscaCodigo(int codigoBuscado) {
-        Disco Disco = new Disco();
+        Solucion.Disco Disco = new Solucion.Disco();
         long posicion = -1;
         posicionaFichero(0);
         do
@@ -99,7 +94,7 @@ public class GestorConsultas {
      * @return	Vector de cadenas con los autores
      */
     public String[] listaAutores() {
-        Disco Disco = new Disco();
+        Solucion.Disco Disco = new Solucion.Disco();
         HashSet<String> autores = new HashSet<String>();
         posicionaFichero(0);
         while(true)
@@ -131,7 +126,7 @@ public class GestorConsultas {
      * @return					Vector de cadenas asociadas a los discos del autor
      */
     public String[] buscaAutor(String autorBuscado) {
-        Disco Disco = new Disco();
+        Solucion.Disco Disco = new Solucion.Disco();
         HashSet<String> libros = new HashSet<String>();
         posicionaFichero(0);
         while(true)
@@ -162,7 +157,7 @@ public class GestorConsultas {
         long posicion = buscaCodigo(codigoBuscado);
         if (posicion != -1) {
             posicionaFichero(posicion);
-            Disco Disco = new Disco();
+            Solucion.Disco Disco = new Solucion.Disco();
             try {
                 Disco.leeDeFichero(stream);
                 Disco.setCantidad(Disco.getCantidad() + 1);
@@ -189,7 +184,7 @@ public class GestorConsultas {
         long posicion = buscaCodigo(codigoBuscado);
         if (posicion != -1) {
             posicionaFichero(posicion);
-            Disco Disco = new Disco();
+            Solucion.Disco Disco = new Solucion.Disco();
             try {
                 Disco.leeDeFichero(stream);
                 if (Disco.getCantidad() > 0)
@@ -221,40 +216,3 @@ public class GestorConsultas {
     }
 
 }
-
-
-/*
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-
-public class GestorConsultas {
-    private RandomAccessFile stream;
-
-    public GestorConsultas(String fichero) throws FileNotFoundException {
-        creaFichero(fichero);
-    }
-
-    private void creaFichero(String fichero) throws FileNotFoundException {
-        stream = new RandomAccessFile(fichero, "rw");
-    }
-
-    public void cierraGestor() throws IOException {
-        stream.close();
-    }
-
-    private int buscaCodigo(int codigoDisco) throws IOException {
-        int condicion = -1;
-        int lecturaInt = stream.read();
-        int byteDatos = 0;
-        while (lecturaInt != condicion){
-            if (lecturaInt == codigoDisco){
-                byteDatos = lecturaInt;
-            }
-            lecturaInt = stream.read();
-        }
-        return byteDatos;
-    }
-}
-*/
